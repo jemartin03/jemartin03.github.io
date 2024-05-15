@@ -17,7 +17,7 @@ body, html {
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 5%;
     display: flex;
     justify-content: center;
 }
@@ -154,10 +154,20 @@ button:hover {
 .arrow-icon {
     display: block;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    animation: arrowBounce 2s ease-in-out infinite;
 }
 
 .arrow:hover{
     transform: translateY(-5px) scale(1.05);
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .container {
