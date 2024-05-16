@@ -48,9 +48,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        form.style.display = 'none';
-        thankYouMessage.style.display = 'block';
-    });
 
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        };
+
+        // Send email using EmailJS
+        emailjs.send('default_service', 'template_bgi6azf', formData)
+            .then((response) => {
+                console.log('SUCCESS!', response.status, response.text);
+                // Show thank you message
+                thankYouMessage.style.display = 'block';
+                // Hide the form
+                form.style.display = 'none';
+            }, (error) => {
+                console.log('FAILED...', error);
+                alert('Failed to send the email. Please try again later.');
+            });
+    });
 });
     

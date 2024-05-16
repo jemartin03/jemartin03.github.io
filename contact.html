@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Contact Me - Julia Martin</title>
-        <link rel="stylesheet" href="index.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
-    </head>
-    <body>
-        <header id="header">
-            <nav>
-                <ul>
-                    <li><a href="index.html#home" class="nav-link">Home</a></li>
-                    <li><a href="thoughts.html" class="nav-link">My Thoughts</a></li>
-                    <li><a href="resume.html" class="nav-link">Resume</a></li>
-                    <li><a href="contact.html" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section id="contact" class="section">
-                <div id="banner"> 
-                    <h1>Contact Me</h1>
-                </div>
-                <div class="container">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - Julia Martin</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+        emailjs.init("sUSyhtm9NkgfXFWh2");
+      })();
+    </script>
+</head>
+<body>
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="thoughts.html" class="nav-link">My Thoughts</a></li>
+                <li><a href="resume.html" class="nav-link">Resume</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="contact" class="section">
+            <div id="banner"> 
+                <h1>Contact Me</h1>
+            </div>
+            <div class="container">
+                <form id="contact-form" class="contact-form">
                     <p>Please fill out your information below:</p>
-                    <form id="contact-form" class="contact-form">
-                        <input type="text" id="name" placeholder="Your Name" required>
-                        <input type="email" id="email" placeholder="Your Email" required>
-                        <textarea id="message" placeholder="Your Message" required></textarea>
-                        <button type="submit">Submit</button>
-                    </form>
-                    <div id="thank-you-message" class="thank-you-message" style="display:none;">
-                        Thanks for reaching out! I'll get back to you soon.
-                    </div>
-                    <div class="links-container">
-                        <a class="link" href="https://github.com/jemartin03" target="_blank">
-                          <img class="logo" src="./assets/img/links/github.svg" alt="GitHub Logo">
-                          GitHub
-                        </a>
-                        <a class="link" href="https://www.linkedin.com/in/ /" target="_blank">
-                          <img class="logo" src="./assets/img/links/linkedin.svg" alt="Linkedin Logo">
-                          Linkedin
-                        </a>
-                      </div>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+                <div id="thank-you-message" class="thank-you-message" style="display:none;">
+                    Thanks for reaching out! I'll get back to you soon :)
                 </div>
-            </section>
-        </main>
-        <script src="index.js"></script>
-    </body>
-<html>
+                <div class="links-container">
+                    <a class="link" href="https://github.com/jemartin03" target="_blank" style="display:block">
+                      <img class="logo" src="images/icons8-github-90.png" alt="GitHub Logo">
+                      <p>Github</p>
+                    </a>
+                    <a class="link" href="https://www.linkedin.com/in/jemartin03" target="_blank" style="display:block">
+                      <img class="logo" src="images/icons8-linkedin-100.png" alt="Linkedin Logo">
+                      <p>Linkedin</p>
+                    </a>
+                  </div>
+            </div>
+        </section>
+    </main>
+    <script src="index.js"></script>
+</body>
+</html>
