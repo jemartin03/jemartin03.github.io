@@ -1,0 +1,43 @@
+{
+    "homepage": "https://jemartin03.github.io",
+    "name": "portfolio",
+    "version": "0.1.1",
+    "private": true,
+    "dependencies": {
+        "@emailjs/browser": "^4.3.3",
+        "react": "^18.2.0"
+    },
+    "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
+        "build": "react-scripts build",
+        "start": "react-scripts start"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-env",
+            "@babel/preset-react"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.8",
+        "gh-pages": "^3.2.3",
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "^5.0.1"
+    },
+    "browser": {
+        "crypto": false
+    }
+}

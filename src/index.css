@@ -101,6 +101,14 @@ nav li {
     font-size: 20px;
 }
 
+.visible * {
+    opacity: 1 !important;
+}
+
+.fullpage {
+    height: 100vh !important;
+}
+
 h1, h2 {
     margin: 0 0 20px;
     font-size: 3em;
@@ -120,7 +128,6 @@ p, form, .thought {
 }
 
 .section.visible h1, .section.visible h2, .section.visible p, .section.visible .thought, .section.visible form {
-    opacity: 1;
     transform: translateY(0);
 }
 
