@@ -26,7 +26,8 @@ const Home = () => {
       <>
       <section id="home" className="section">
         <h1>Julia Martin</h1>
-        <a href="#about" className="arrow">About Me <span className="arrow-icon">v</span></a>
+        <a href="#about" className="arrow">About Me 
+        <span className="arrow-icon">v</span></a>
       </section>
       <section id="about" className="section">
             <h2>About Me</h2>

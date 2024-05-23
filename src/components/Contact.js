@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import '../index.css';
 import emailjs from '@emailjs/browser';
+import Banner from "./Banner";
 
 const Contact = () => {
 
@@ -56,9 +57,7 @@ const Contact = () => {
     return (
         <main>
             <section id="contact" className="section">
-                <div id="banner"> 
-                    <h1>Contact Me</h1>
-                </div>
+                <Banner page="contact" />
                 <div className="container">
                     <form id="contact-form" className="contact-form" onSubmit={onFormSubmit}>
                         <p>Please fill out your information below:</p>

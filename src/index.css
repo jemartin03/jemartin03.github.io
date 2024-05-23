@@ -64,7 +64,7 @@ nav li {
     padding: 20px;
 }
 
-#about, #contact, #thoughts, #resume {
+#about, #contact, #thoughts, #resume, #spotify {
     background: #f4f4f4;
     display: block
 }
@@ -103,10 +103,6 @@ nav li {
 
 .visible * {
     opacity: 1 !important;
-}
-
-.fullpage {
-    height: 100vh !important;
 }
 
 h1, h2 {
@@ -231,13 +227,16 @@ button:hover {
 }
 
 .arrow {
+    display: block; 
+    justify-content: center;
+    align-items: center;
     position: absolute;
     bottom: 1vh;
     text-align: center;
     text-decoration: none;
     color: #fff;
     font-size: 25px;
-    transition: 0.3s ease;
+    transition: 0.3s ease; 
 }
 
 .arrow-icon {
@@ -330,3 +329,58 @@ button:hover {
     overflow: hidden;
     margin-bottom: 0;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+  }
+  
+  .modal-content label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .spotify-container {
+    padding: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  audio {
+    width: 100%;
+  }
+  

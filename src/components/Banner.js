@@ -6,14 +6,29 @@ const Banner = ({page}) => {
         setLoaded(true)
     }, []) // empty square brackets: RUN THIS FUNCTION WHEN THIS COMPONENT LOADS
     let classes = loaded ? "visible "  :  ""
-    if(page === 'home') {
-        classes = classes + "fullpage"
-    }
-    return (
-        <div id="banner" className={classes } >
-        <h1>{page === "home" ? "Julia Martin" : page}</h1>
+    let title;
+    switch (page) {
+        case 'thoughts':
+          title = 'My Thoughts';
+          break;
+        case 'resume':
+          title = 'My Resume';
+          break;
+        case 'contact':
+          title = 'Contact Me';
+          break;
+          case 'spotify':
+            title = 'Spotify';
+          break;
+        default:
+          title = 'Julia Martin';
+      }
+    
+      return (
+        <div id="banner" className={classes}>
+          <h1>{title}</h1>
         </div>
-    );
-};
-
-export default Banner;
+      );
+    };
+    
+    export default Banner;
