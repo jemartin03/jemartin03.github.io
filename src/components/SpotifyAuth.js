@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const clientId = 'c6904566ce8f443a85996d88a3928fc0';
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
 const redirectUri = 'https://jemartin03.github.io/#/callback';
 
 const scopes = 'user-read-private user-read-email user-top-read playlist-read-private';
@@ -14,6 +14,7 @@ export const getAuthUrl = () => {
 };
 
 export const getAccessToken = async (code) => {
+  console.log("Client Secret:", clientSecret); 
   const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
     grant_type: 'authorization_code',
     code,
