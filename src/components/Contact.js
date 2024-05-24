@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import '../index.css';
 import emailjs from '@emailjs/browser';
 import Banner from "./Banner";
 

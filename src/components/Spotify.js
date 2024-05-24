@@ -38,13 +38,17 @@ const Spotify = () => {
   useEffect(() => {
     const code = new URLSearchParams(location.search).get('code');
     if (code && !isAuthenticated) {
+      console.log('Authorization code received:', code);
       authenticate(code);
+    } else {
+      console.log('No authorization code found or already authenticated');
     }
   }, [location, isAuthenticated]);
 
   const authenticate = async (code) => {
     try {
       const token = await getAccessToken(code);
+      console.log('Access token received:', token);
       setAccessToken(token);
       setIsAuthenticated(true);
       fetchData(token, dataType, timeRange);
@@ -69,9 +73,10 @@ const Spotify = () => {
         default:
           result = await getTopTracks(token, range);
       }
+      console.log('Data fetched:', result);
       setData(result);
     } catch (error) {
-        console.error('Error fetching data:', error.response ? error.response.data : error.message);
+      console.error('Error fetching data:', error.response ? error.response.data : error.message);
     }
   };
 
