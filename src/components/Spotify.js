@@ -226,34 +226,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Banner from "./Banner";
-import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists } from './SpotifyAuth';
+import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists, getGeneralAccessToken, fetchGeneralStats } from './SpotifyAuth';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-
-const clientId = 'your_client_id';
-const clientSecret = 'your_client_secret';
-
-const getGeneralAccessToken = async () => {
-  const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
-    grant_type: 'client_credentials'
-  }), {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
-    }
-  });
-  return response.data.access_token;
-};
-
-const fetchGeneralStats = async (token, type) => {
-  const url = type === 'top-tracks' ? 'https://api.spotify.com/v1/browse/new-releases' : 'https://api.spotify.com/v1/artists';
-  const response = await axios.get(url, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
-  return type === 'top-tracks' ? response.data.albums.items : response.data.artists.items;
-};
 
 const Spotify = () => {
   const [data, setData] = useState([]);
