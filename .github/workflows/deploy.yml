@@ -3,11 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - react
+      - react 
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Grant write permissions to the GITHUB_TOKEN
 
     steps:
     - name: Checkout code
