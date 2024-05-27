@@ -249,7 +249,7 @@ const DataTable = ({ data, type }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((playlist, index) => (
+           {data.map((playlist, index) => (
             <tr key={index}>
               <td>{playlist.name}</td>
               <td>{playlist.tracks ? playlist.tracks.total : 'N/A'}</td>
