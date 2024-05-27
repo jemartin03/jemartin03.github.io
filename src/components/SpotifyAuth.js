@@ -8,7 +8,7 @@
 
 // export const getAuthUrl = () => {
 //   const encodedRedirectUri = encodeURIComponent(redirectUri);
-//   console.log({encodedRedirectUri});
+//   console.log({ encodedRedirectUri });
 //   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodedRedirectUri}&scope=${encodeURIComponent(scopes)}&show_dialog=true`;
 //   return url;
 // };
@@ -26,7 +26,7 @@
 //       'Content-Type': 'application/x-www-form-urlencoded'
 //     }
 //   });
-//   console.log(`redirecting ${response}`)
+//   console.log(`redirecting ${response}`);
 //   return response.data.access_token;
 // };
 
@@ -66,6 +66,28 @@
 //   return response.data.items;
 // };
 
+// export const getGeneralAccessToken = async () => {
+//   const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
+//     grant_type: 'client_credentials'
+//   }), {
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//       'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+//     }
+//   });
+//   return response.data.access_token;
+// };
+
+// export const fetchGeneralStats = async (token, type) => {
+//   const url = type === 'top-tracks' ? 'https://api.spotify.com/v1/browse/new-releases' : 'https://api.spotify.com/v1/artists';
+//   const response = await axios.get(url, {
+//     headers: {
+//       'Authorization': `Bearer ${token}`
+//     }
+//   });
+//   return type === 'top-tracks' ? response.data.albums.items : response.data.artists.items;
+// };
+
 import axios from 'axios';
 
 const clientId = 'c6904566ce8f443a85996d88a3928fc0';
@@ -76,13 +98,11 @@ const scopes = 'user-read-private user-read-email user-top-read playlist-read-pr
 
 export const getAuthUrl = () => {
   const encodedRedirectUri = encodeURIComponent(redirectUri);
-  console.log({ encodedRedirectUri });
   const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodedRedirectUri}&scope=${encodeURIComponent(scopes)}&show_dialog=true`;
   return url;
 };
 
 export const getAccessToken = async (code) => {
-  console.log("Client Secret:", clientSecret); 
   const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
     grant_type: 'authorization_code',
     code,
@@ -94,7 +114,6 @@ export const getAccessToken = async (code) => {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   });
-  console.log(`redirecting ${response}`);
   return response.data.access_token;
 };
 
@@ -107,7 +126,6 @@ export const getTopTracks = async (accessToken, timeRange = 'medium_term') => {
       time_range: timeRange
     }
   });
-
   return response.data.items;
 };
 
@@ -120,7 +138,6 @@ export const getTopArtists = async (accessToken, timeRange = 'medium_term') => {
       time_range: timeRange
     }
   });
-
   return response.data.items;
 };
 
@@ -130,7 +147,6 @@ export const getUserPlaylists = async (accessToken) => {
       Authorization: `Bearer ${accessToken}`
     }
   });
-
   return response.data.items;
 };
 
@@ -146,12 +162,29 @@ export const getGeneralAccessToken = async () => {
   return response.data.access_token;
 };
 
-export const fetchGeneralStats = async (token, type) => {
-  const url = type === 'top-tracks' ? 'https://api.spotify.com/v1/browse/new-releases' : 'https://api.spotify.com/v1/artists';
-  const response = await axios.get(url, {
+export const fetchNewReleases = async (token) => {
+  const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   });
-  return type === 'top-tracks' ? response.data.albums.items : response.data.artists.items;
+  return response.data.albums.items;
+};
+
+export const fetchFeaturedPlaylists = async (token) => {
+  const response = await axios.get('https://api.spotify.com/v1/browse/featured-playlists', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response.data.playlists.items;
+};
+
+export const fetchCategories = async (token) => {
+  const response = await axios.get('https://api.spotify.com/v1/browse/categories', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response.data.categories.items;
 };

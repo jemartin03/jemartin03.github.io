@@ -1,10 +1,11 @@
 // import React, { useEffect, useState } from 'react';
 // import Banner from "./Banner";
-// import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists } from './SpotifyAuth';
+// import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists, getGeneralAccessToken, fetchGeneralStats } from './SpotifyAuth';
 // import { useLocation } from 'react-router-dom';
 
 // const Spotify = () => {
 //   const [data, setData] = useState([]);
+//   const [generalData, setGeneralData] = useState([]);
 //   const [isAuthenticated, setIsAuthenticated] = useState(false);
 //   const [dataType, setDataType] = useState('top-tracks'); // Default to top tracks
 //   const [timeRange, setTimeRange] = useState('medium_term'); // Default to medium term
@@ -80,6 +81,16 @@
 //     }
 //   };
 
+//   const fetchGeneralData = async (type) => {
+//     try {
+//       const token = await getGeneralAccessToken();
+//       const generalStats = await fetchGeneralStats(token, type);
+//       setGeneralData(generalStats);
+//     } catch (error) {
+//       console.error('Error fetching general data:', error);
+//     }
+//   };
+
 //   const handleDataTypeChange = (event) => {
 //     const newType = event.target.value;
 //     setDataType(newType);
@@ -100,6 +111,10 @@
 //     window.location.href = getAuthUrl();
 //   };
 
+//   const handleGeneralStats = () => {
+//     fetchGeneralData(dataType);
+//   };
+
 //   return (
 //     <>
 //       <section id="spotify" className="section">
@@ -107,7 +122,10 @@
 //         <div className="spotify-container">
 //           <h1>Spotify Data</h1>
 //           {!isAuthenticated && (
-//             <button onClick={handleLogin}>Login with Spotify</button>
+//             <div>
+//               <button onClick={handleLogin}>Login with Spotify</button>
+//               <button onClick={handleGeneralStats}>Display General Stats</button>
+//             </div>
 //           )}
 //           {isAuthenticated && (
 //             <>
@@ -130,6 +148,12 @@
 //                 </div>
 //               )}
 //               <DataTable data={data} type={dataType} />
+//             </>
+//           )}
+//           {generalData.length > 0 && (
+//             <>
+//               <h2>General Spotify Stats</h2>
+//               <DataTable data={generalData} type={dataType} />
 //             </>
 //           )}
 //         </div>
@@ -226,23 +250,22 @@
 
 import React, { useEffect, useState } from 'react';
 import Banner from "./Banner";
-import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists, getGeneralAccessToken, fetchGeneralStats } from './SpotifyAuth';
+import { getAuthUrl, getAccessToken, getTopTracks, getTopArtists, getUserPlaylists, getGeneralAccessToken, fetchNewReleases, fetchFeaturedPlaylists, fetchCategories } from './SpotifyAuth';
 import { useLocation } from 'react-router-dom';
 
 const Spotify = () => {
   const [data, setData] = useState([]);
   const [generalData, setGeneralData] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [dataType, setDataType] = useState('top-tracks'); // Default to top tracks
-  const [timeRange, setTimeRange] = useState('medium_term'); // Default to medium term
+  const [dataType, setDataType] = useState('top-tracks');
+  const [generalDataType, setGeneralDataType] = useState('new-releases');
+  const [timeRange, setTimeRange] = useState('medium_term');
   const location = useLocation();
   const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
     const sections = document.querySelectorAll('.section');
-    const options = {
-      threshold: 0.1
-    };
+    const options = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -265,17 +288,13 @@ const Spotify = () => {
   useEffect(() => {
     const code = new URLSearchParams(location.search).get('code');
     if (code && !isAuthenticated) {
-      console.log('Authorization code received:', code);
       authenticate(code);
-    } else {
-      console.log('No authorization code found or already authenticated');
     }
   }, [location, isAuthenticated]);
 
   const authenticate = async (code) => {
     try {
       const token = await getAccessToken(code);
-      console.log('Access token received:', token);
       setAccessToken(token);
       setIsAuthenticated(true);
       fetchData(token, dataType, timeRange);
@@ -300,17 +319,29 @@ const Spotify = () => {
         default:
           result = await getTopTracks(token, range);
       }
-      console.log('Data fetched:', result);
       setData(result);
     } catch (error) {
-      console.error('Error fetching data:', error.response ? error.response.data : error.message);
+      console.error('Error fetching data:', error);
     }
   };
 
   const fetchGeneralData = async (type) => {
     try {
       const token = await getGeneralAccessToken();
-      const generalStats = await fetchGeneralStats(token, type);
+      let generalStats;
+      switch (type) {
+        case 'new-releases':
+          generalStats = await fetchNewReleases(token);
+          break;
+        case 'featured-playlists':
+          generalStats = await fetchFeaturedPlaylists(token);
+          break;
+        case 'categories':
+          generalStats = await fetchCategories(token);
+          break;
+        default:
+          generalStats = await fetchNewReleases(token);
+      }
       setGeneralData(generalStats);
     } catch (error) {
       console.error('Error fetching general data:', error);
@@ -323,6 +354,12 @@ const Spotify = () => {
     if (isAuthenticated) {
       fetchData(accessToken, newType, timeRange);
     }
+  };
+
+  const handleGeneralDataTypeChange = (event) => {
+    const newType = event.target.value;
+    setGeneralDataType(newType);
+    fetchGeneralData(newType);
   };
 
   const handleTimeRangeChange = (event) => {
@@ -338,7 +375,7 @@ const Spotify = () => {
   };
 
   const handleGeneralStats = () => {
-    fetchGeneralData(dataType);
+    fetchGeneralData(generalDataType);
   };
 
   return (
@@ -376,10 +413,18 @@ const Spotify = () => {
               <DataTable data={data} type={dataType} />
             </>
           )}
+          <div>
+            <label htmlFor="general-data-type">Select General Data Type: </label>
+            <select id="general-data-type" onChange={handleGeneralDataTypeChange} value={generalDataType}>
+              <option value="new-releases">New Releases</option>
+              <option value="featured-playlists">Featured Playlists</option>
+              <option value="categories">Categories</option>
+            </select>
+          </div>
           {generalData.length > 0 && (
             <>
               <h2>General Spotify Stats</h2>
-              <DataTable data={generalData} type={dataType} />
+              <DataTable data={generalData} type={generalDataType} />
             </>
           )}
         </div>
@@ -389,7 +434,7 @@ const Spotify = () => {
 };
 
 const DataTable = ({ data, type }) => {
-  if (type === 'top-tracks') {
+  if (type === 'top-tracks' || type === 'new-releases') {
     return (
       <table>
         <thead>
@@ -442,7 +487,7 @@ const DataTable = ({ data, type }) => {
         </tbody>
       </table>
     );
-  } else if (type === 'playlists') {
+  } else if (type === 'playlists' || type === 'featured-playlists') {
     return (
       <table>
         <thead>
@@ -462,6 +507,25 @@ const DataTable = ({ data, type }) => {
                   Open in Spotify
                 </a>
               </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  } else if (type === 'categories') {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((category, index) => (
+            <tr key={index}>
+              <td>{category.name}</td>
+              <td>{category.id}</td>
             </tr>
           ))}
         </tbody>
