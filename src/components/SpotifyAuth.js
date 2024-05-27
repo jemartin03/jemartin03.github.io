@@ -151,15 +151,25 @@ export const getUserPlaylists = async (accessToken) => {
 };
 
 export const getGeneralAccessToken = async () => {
-  const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
-    grant_type: 'client_credentials'
-  }), {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
-    }
-  });
-  return response.data.access_token;
+  try {
+    const response = await axios.post('https://accounts.spotify.com/api/token', 
+      new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: clientId,
+        client_secret: clientSecret
+      }), 
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+        }
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Error fetching general access token:', error.response ? error.response.data : error.message);
+    throw error;
+  }
 };
 
 export const fetchNewReleases = async (token) => {
