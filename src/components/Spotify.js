@@ -254,7 +254,7 @@ const DataTable = ({ data, type }) => {
               <td>{playlist.name}</td>
               <td>{playlist.tracks ? playlist.tracks.total : 'N/A'}</td>
               <td>
-                <a href={playlist.external_urls.spotify} target="_blank" rel="noopener noreferrer">
+                <a href={playlist.owner.external_urls.spotify} target="_blank" rel="noopener noreferrer">
                   Open in Spotify
                 </a>
               </td>
